@@ -1,4 +1,4 @@
-from watchdog.events import LoggingEventHandler, PatternMatchingEventHandler
+from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 import logging
 from configuration import WATCHED_FILEXT
@@ -69,7 +69,7 @@ class Listen:
             self._event_handler.on_deleted = self.__on_deleted
         elif event == 'mod':
             pass
-            #self._event_handler.on_modified = self.__on_modified
+            # self._event_handler.on_modified = self.__on_modified
         elif event == 'cut':
             self._event_handler.on_moved = self.__on_moved
         else:
@@ -85,4 +85,3 @@ class Listen:
         except KeyboardInterrupt:
             self._observer.stop()
             return False
-

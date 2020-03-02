@@ -24,5 +24,6 @@ class TestReceiver(unittest.TestCase):
         s.declare_queue(QUEUE_NAME)
         s.publish('routing_key', 'hello')
 
+
 if __name__ == '__main__':
     unittest.main()
