@@ -1,7 +1,7 @@
 # Webon it 
 
-System service: listening for incoming resources, fetch content and send it to message broker.
-Web application: reading queue, update real time user view 
+System service: writing a resource, it pushes content to the provider.
+Web application: tail queue (in real time)   
 
 ## Getting Started
 
