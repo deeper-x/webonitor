@@ -17,20 +17,40 @@ class Listen:
                                                           ignore_patterns='',
                                                           ignore_directories=True,
                                                           case_sensitive=False,
-                                                         )
+                                                          )
 
         self._observer = Observer()
 
     def __on_created(self, event) -> str:
+        """
+        File creation
+        :param event: string
+        :return: string
+        """
         return logging.info(f'Created {event.src_path}')
 
     def __on_deleted(self, event) -> str:
+        """
+        File deletion
+        :param event: string
+        :return: string
+        """
         return logging.info(f'Deleted {event.src_path}')
 
     def __on_modified(self, event) -> str:
+        """
+        File editing
+        :param event: string
+        :return: string
+        """
         return logging.info(f'Modified {event.src_path}')
 
     def __on_moved(self, event) -> str:
+        """
+        Moved file event
+        :param event: string
+        :return: string
+        """
         return logging.info(f'Moved {event.src_path}')
 
     def observe(self, path: str, event: str) -> bool:
@@ -48,12 +68,11 @@ class Listen:
         elif event == 'del':
             self._event_handler.on_deleted = self.__on_deleted
         elif event == 'mod':
-            logging.warning(f'File {event} has no actions - NOOP')
-        #    self._event_handler.on_modified = self.__on_modified
+            pass
+            #self._event_handler.on_modified = self.__on_modified
         elif event == 'cut':
             self._event_handler.on_moved = self.__on_moved
         else:
-            logging.error(f'File {event} event is unhandled...')
             return False
 
         self._observer.schedule(self._event_handler, path, recursive=True)

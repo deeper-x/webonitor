@@ -4,4 +4,4 @@ from configuration import bucket
 
 if __name__ == '__main__':
     a = Listen()
-    a.observe(bucket, 'mod')
+    a.observe(bucket, 'add')

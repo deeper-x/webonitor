@@ -6,12 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-requests = "*"
 watchdog = "*"
 mypy = "*"
-pyls = "*"
 logging = "*"
 mock = "*"
+pika = "*"
 
 [requires]
 python_version = "3.8"
