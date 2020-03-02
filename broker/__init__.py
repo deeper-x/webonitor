@@ -3,10 +3,10 @@ import logging
 from configuration import RABBITMQ_HOST
 
 
-class Receiver:
+class QueueManager:
     def __init__(self):
-        self.__connection = None
-        self.__queue = None
+        self._connection = None
+        self._queue = None
 
         self.channel = None
 
@@ -16,7 +16,7 @@ class Receiver:
         Queue name accessor
         :return: string
         """
-        return self.__queue
+        return self._queue
 
     @queue.setter
     def queue(self, queue_name: str) -> None:
@@ -25,7 +25,7 @@ class Receiver:
         :param queue_name: string
         :return: None
         """
-        self.__queue = queue_name
+        self._queue = queue_name
 
     def connect(self) -> None:
         """
@@ -33,7 +33,7 @@ class Receiver:
         :return: None
         """
         params = pika.ConnectionParameters(host=RABBITMQ_HOST)
-        self.__connection = pika.BlockingConnection(parameters=params)
+        self._connection = pika.BlockingConnection(parameters=params)
 
     def declare_queue(self, name: str) -> bool:
         """
@@ -41,12 +41,20 @@ class Receiver:
         :param name: string
         :return: bool
         """
-        if self.__connection.channel():
-            self.channel = self.__connection.channel()
+        if self._connection.channel():
+            self.channel = self._connection.channel()
             self.channel.queue_declare(name)
             return True
 
         return False
+
+
+class Receiver(QueueManager):
+    """
+    Defines rabbitmq receiver
+    """
+    def __init__(self):
+        super().__init__()
 
     def callback(self, method: str, props: str, body: str):
         """
@@ -65,11 +73,32 @@ class Receiver:
         """
         if self.channel:
             logging.info('Start consuming....')
-            self.channel.basic_consume(queue=self.__queue,
+            self.channel.basic_consume(queue=self._queue,
                                        on_message_callback=self.callback,
                                        auto_ack=True
                                        )
             self.channel.start_consuming()
+            return True
+
+        return False
+
+
+class Sender(QueueManager):
+    def __init__(self):
+        super().__init__()
+
+    def publish(self, routing_key: str, body: str):
+        """
+        Publish content on givent routing key
+        :param routing_key: str
+        :param body: str
+        :return: None
+        """
+        if self.channel:
+            self.channel.basic_publish(exchange='',
+                                       routing_key=routing_key,
+                                       body=body)
+            self._connection.close()
             return True
 
         return False
