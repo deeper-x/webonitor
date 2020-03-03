@@ -36,6 +36,10 @@ $ python main.py
 make test
 ```
 
+## Lint
+```bash
+make lint
+```
 
 ## Versioning
 
