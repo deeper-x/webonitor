@@ -9,14 +9,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Python 3.7
+    - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7.6
+        python-version: 3.8
     - name: Install dependencies
       run: |
-        python3.7 -m pip install pipenv
-        python3.7 -m pipenv install
+        python3.8 -m pip install pipenv
+        python3.8 -m pipenv install
     - name: Lint with flake8
       run: |
         pipenv shell
