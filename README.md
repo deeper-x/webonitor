@@ -2,8 +2,8 @@
 
 ![Python application](https://github.com/deeper-x/webonitor/workflows/Python%20application/badge.svg)
 
-System service: writing a resource, it pushes content to the provider.
-Web application: tail queue (in real time)   
+- System service: writing a resource, it pushes content to the provider.
+- Web application: tail view queue (in real time)   
 
 ## Getting Started
 
